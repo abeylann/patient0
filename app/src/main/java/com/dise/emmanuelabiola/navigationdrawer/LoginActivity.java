@@ -1,5 +1,6 @@
 package com.dise.emmanuelabiola.navigationdrawer;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,11 @@ public class LoginActivity extends AppCompatActivity {
     //mLoginButton = (Button)findViewById(R.id.loginButton);
     //mLoginButton.setOnClickListener(new View.OnClickListener() {
 
-
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+    }
     // Login
     public void sendLogin() {
         String url = "http://178.62.120.115/api/v1/login";
