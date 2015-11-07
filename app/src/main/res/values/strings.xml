@@ -29,7 +29,9 @@
     <string name="video_size_limit_warning">The selected video must be less than 10 MB.</string>
     <string name="error_selecting_file">There was an error with the file selected. Please select a different file.</string>
     <string name="error_file_too_large">The selected file is too large! Select a new file.</string>
-    <string name="subtitle">What symptoms do you have?</string>
+
+
+    <string name="subtitle">Practice diagnosing your 1st Patient!</string>
     <string name="title_activity_main2">Main2Activity</string>
 
     <!-- Strings related to login -->

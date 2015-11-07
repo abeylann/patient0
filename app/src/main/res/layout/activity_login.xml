@@ -45,9 +45,10 @@
     <Button
         android:id="@+id/loginButton"
         style="@style/AuthButton"
-        android:background="@color/light_gray"
+        android:background="@color/md_indigo_900"
         android:text="@string/login_button_label"
-        android:layout_below="@+id/editTextLayout" />
+        android:textColor="@color/md_white_1000"
+        android:layout_below="@+id/editTextLayout"/>
 
 
 </RelativeLayout>
