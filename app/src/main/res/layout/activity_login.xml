@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AuthBackground"
+    android:background="@color/alice_blue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity" >
+
+    <ImageView
+        android:id="@drawable/patient_zero"
+        android:src="@drawable/patient_zero"
+        style="@style/AuthTitle"
+        android:layout_height="200dp"/>
+
+    <TextView
+        android:id="@+id/subtitle"
+        style="@style/AuthTitle.AuthSubTitle"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/md_indigo_400"/>
+
+    <LinearLayout
+        android:id="@+id/editTextLayout"
+        style="@style/AuthFieldContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:layout_below="@drawable/patient_zero">
+
+        <EditText
+            android:id="@+id/usernameField"
+            style="@style/AuthEditText"
+            android:hint="@string/username_hint" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/passwordField"
+            style="@style/AuthEditText"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/loginButton"
+        style="@style/AuthButton"
+        android:background="@color/light_gray"
+        android:text="@string/login_button_label"
+        android:layout_below="@+id/editTextLayout" />
+
+
+</RelativeLayout>
