@@ -36,6 +36,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String CONDITIONS_CREATE = "create table "
             + TABLE_CONDITIONS + "("
             + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_CONDITION_ID + " integer, "
             + COLUMN_CONDITION_NAME + " text);";
 
 

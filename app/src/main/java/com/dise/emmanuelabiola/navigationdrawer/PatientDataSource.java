@@ -44,8 +44,6 @@ public class PatientDataSource {
         database.insert(MySQLiteHelper.TABLE_PATIENT, null, cv);
         Cursor cursor = getPatient();
 
-        cursor.moveToFirst();
-
         Log.d("Patient:", "" + cursor.getInt(0));
         Log.d("Patient:", cursor.getString(1));
 
@@ -56,6 +54,7 @@ public class PatientDataSource {
     {
         Cursor cursor = database.rawQuery("select * from " + MySQLiteHelper.TABLE_PATIENT, null);
 
+        cursor.moveToFirst();
         return cursor;
     }
 
@@ -81,11 +80,20 @@ public class PatientDataSource {
 
     public int getConditionFromName(String name)
     {
-        Cursor cursor = database.rawQuery("select * from " + MySQLiteHelper.TABLE_CONDITIONS + " where " + MySQLiteHelper.COLUMN_CONDITION_NAME + " like " + name, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + MySQLiteHelper.TABLE_CONDITIONS + " WHERE " + MySQLiteHelper.COLUMN_CONDITION_NAME + "='" + name + "'", null);
 
         cursor.moveToFirst();
 
-        return cursor.getInt(0);
+        return cursor.getInt(1);
+    }
+
+    public void addConditionToDatabase(int id, String condition)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(MySQLiteHelper.COLUMN_CONDITION_ID, id);
+        cv.put(MySQLiteHelper.COLUMN_CONDITION_NAME, condition);
+        database.insert(MySQLiteHelper.TABLE_CONDITIONS, null, cv);
+        Log.d("Inserted","...");
     }
 
 
