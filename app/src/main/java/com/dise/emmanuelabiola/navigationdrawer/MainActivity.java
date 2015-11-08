@@ -1,5 +1,8 @@
 package com.dise.emmanuelabiola.navigationdrawer;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,11 +23,14 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ActionBar actionBar;
     TextView textView;
+    Fragment fragment;
+    static Context c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        c = getApplicationContext();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,22 +72,33 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        textView = (TextView) findViewById(R.id.textView);
+
+                        fragment = null;
                         switch (menuItem.getItemId()) {
 
                             case R.id.item_navigation_drawer_quiz:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
+                                fragment = new HomeFragment();
+                                if (fragment != null) {
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.frame, fragment).commit();
+
+                                    setTitle(menuItem.getTitle());
+                                    drawerLayout.closeDrawer(GravityCompat.START);
+                                } else {
+                                    // error in creating fragment
+                                    Log.e("MainActivity", "Error in creating fragment");
+                                }
 
                                 return true;
 
                             case R.id.item_navigation_drawer_starred:
                                 menuItem.setChecked(true);
-                                textView.setText(menuItem.getTitle());
                                 drawerLayout.closeDrawer(GravityCompat.START);
-                                Intent intent = new Intent(getApplicationContext(), FunFactsActivity.class);
-                                startActivity(intent);
+
+                                setupPatientFragment(menuItem.getTitle().toString());
                                 return true;
 
                             case R.id.item_navigation_drawer_sent_mail:
@@ -122,5 +140,21 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    public void setupPatientFragment(String title)
+    {
+        fragment = new TestFragment();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame, fragment).commit();
+
+            setTitle(title);
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            // error in creating fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
     }
 }

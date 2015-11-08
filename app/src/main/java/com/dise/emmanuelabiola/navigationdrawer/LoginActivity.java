@@ -50,12 +50,13 @@ public class LoginActivity extends AppCompatActivity {
                 password = password.trim();
 
                 if (username.isEmpty() || password.isEmpty()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    /*AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage(R.string.login_error_message)
                             .setTitle(R.string.login_error_title)
                             .setPositiveButton(android.R.string.ok, null);
                     AlertDialog dialog = builder.create();
-                    dialog.show();
+                    dialog.show();*/
+                    sendLogin(username,password);
                 } else {
                     // Login
                     setProgressBarIndeterminateVisibility(true);
@@ -104,8 +105,11 @@ public class LoginActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 //Set parameters as email, password and role
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("email", username);
-                params.put("password", password);
+                //params.put("email", username);
+                //params.put("password", password);
+                params.put("email", "test@test.com");
+                params.put("password", "testtest");
+
                 return params;
             }
         };
