@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:text="Emmanuel Android"
+            android:text="Test User"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
@@ -42,9 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:text="eabiola01@gmail.com"
+            android:text="test@test.com"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
     </LinearLayout>
 
 </FrameLayout>

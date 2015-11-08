@@ -3,6 +3,7 @@ package com.dise.emmanuelabiola.navigationdrawer;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected Button mLoginButton;
     protected EditText mUsername;
     protected EditText mPassword;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("Response:", response);
                     String email = jsonResponse.getString("email");
 
+                    prefs = getSharedPreferences("UserDetails", MODE_PRIVATE);
+
                     if (email != ""){
+                        SharedPreferences.Editor prefsEditor = prefs.edit();
+                        prefsEditor.putString("email", email);
+
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
