@@ -6,7 +6,7 @@
             android:checked="true"
             android:id="@+id/item_navigation_drawer_quiz"
             android:icon="@drawable/ic_inbox_black_24dp"
-            android:title="PATIENT 0" />
+            android:title="NEW PATIENT" />
         <item
             android:id="@+id/item_navigation_drawer_starred"
             android:icon="@drawable/ic_action_toggle_star"

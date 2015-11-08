@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by josh on 08/11/2015.
@@ -58,6 +59,8 @@ public class PatientDataSource {
         return cursor;
     }
 
+    public int getId() { return getPatient().getInt(0); }
+
     public String getName()
     {
         return getPatient().getString(1);
@@ -85,6 +88,24 @@ public class PatientDataSource {
         cursor.moveToFirst();
 
         return cursor.getInt(1);
+    }
+
+    public void deleteAllConditions()
+    {
+        database.execSQL("delete from " + MySQLiteHelper.TABLE_CONDITIONS);
+    }
+
+    public ArrayList<String> getAllConditions()
+    {
+        Cursor cursor = database.rawQuery("select * from " + MySQLiteHelper.TABLE_CONDITIONS, null);
+
+        ArrayList<String> conditions = new ArrayList<>();
+        while(cursor.moveToNext())
+        {
+            conditions.add(cursor.getString(2));
+        }
+
+        return conditions;
     }
 
     public void addConditionToDatabase(int id, String condition)

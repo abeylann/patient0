@@ -1,14 +1,17 @@
 package com.dise.emmanuelabiola.navigationdrawer;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,6 +53,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     TextView temperatureButton;
     TextView diagnose;
 
+    boolean boolbloodpressure;
+    boolean booltemperature;
+
     public HomeFragment() {
     }
 
@@ -59,6 +65,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         bloodPressureButton = (TextView) rootView.findViewById(R.id.takebloodpressure);
         bloodPressureButton.setOnClickListener(this);
+
+        boolbloodpressure = false;
+        booltemperature = false;
 
         temperatureButton = (TextView) rootView.findViewById(R.id.checkTemperature);
         temperatureButton.setOnClickListener(this);
@@ -141,19 +150,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 try {
                     JSONArray jsonResponse = new JSONArray(response);
                     try {
-                    for(int i = 0 ; i < jsonResponse.length() ; i++)
-                    {
-                        JSONObject condition = jsonResponse.getJSONObject(i);
-
-                            patientDataSource.open();
+                        patientDataSource.open();
+                        patientDataSource.deleteAllConditions();
+                        for (int i = 0; i < jsonResponse.length(); i++) {
+                            JSONObject condition = jsonResponse.getJSONObject(i);
                             patientDataSource.addConditionToDatabase(condition.getInt("id"), condition.getString("name"));
-
-
-                    }
-                        Log.d("Condition:", "" + patientDataSource.getConditionFromName("Stoned"));
+                        }
                         patientDataSource.close();
-                    }catch(SQLException s)
-                    {
+                    } catch (SQLException s) {
                         s.printStackTrace();
                     }
 
@@ -198,12 +202,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 try {
 
                     pds.open();
-                    if(list.contains("Blood Pressure: " + pds.getBloodPressure()))
-                    {
+                    if (boolbloodpressure) {
                         break;
                     }
                     Log.d("Shouldn't", "Get here");
-                    adapter.add("Blood Pressure: " + pds.getBloodPressure());
+                    int bloodPressure = pds.getBloodPressure();
+                    if( bloodPressure <= 100 )
+                    {
+                        adapter.add("Blood Pressure: Very low");
+                        boolbloodpressure = true;
+                    }
+                    else if( bloodPressure > 100 && bloodPressure <= 200 )
+                    {
+                        adapter.add("Blood Pressure: Low");
+                        boolbloodpressure = true;
+                    }
+                    else if( bloodPressure > 200 && bloodPressure <= 300 )
+                    {
+                        adapter.add("Blood Pressure: Average");
+                        boolbloodpressure = true;
+                    }
+                    else if( bloodPressure > 300 && bloodPressure <= 400 )
+                    {
+                        adapter.add("Blood Pressure: High");
+                        boolbloodpressure = true;
+                    }
+                    else if( bloodPressure < 400 )
+                    {
+                        adapter.add("Blood Pressure: Critical");
+                        boolbloodpressure = true;
+                    }
                     pds.close();
                 } catch (SQLException s) {
                     s.printStackTrace();
@@ -215,21 +243,56 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Log.d("Got", "temp bloodPressureButton");
                 try {
                     pds.open();
-                    if(list.contains("Temperature is: " + pds.getTemperature()))
-                    {
+                    if (booltemperature) {
                         break;
                     }
-                    adapter.add("Temperature is: " + pds.getTemperature());
+                    int temperature = pds.getTemperature();
+                    if( temperature <= 100 )
+                    {
+                        adapter.add("Temperature: Very low");
+                        booltemperature = true;
+                    }
+                    else if( temperature > 100 && temperature <= 200 )
+                    {
+                        adapter.add("Temperature: Low");
+                        booltemperature = true;
+
+                    }
+                    else if( temperature > 200 && temperature <= 300 )
+                    {
+                        adapter.add("Temperature: Average");
+                        booltemperature = true;
+
+                    }
+                    else if( temperature > 300 && temperature <= 400 )
+                    {
+                        adapter.add("Temperature: High");
+                        booltemperature = true;
+                    }
+                    else if( temperature > 400 )
+                    {
+                        adapter.add("Temperature: Very high");
+                        booltemperature = true;
+                    }
                     pds.close();
-                }catch(SQLException s)
-                {
+                } catch (SQLException s) {
                     s.printStackTrace();
                 }
 
                 break;
 
             case R.id.diagnose:
-                Log.d("Got", "Stuff");
+                Fragment fragment = new DiagnosisFragment();
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame, fragment).commit();
+                } else {
+                    // error in creating fragment
+                    Log.e("MainActivity", "Error in creating fragment");
+                }
+
+                break;
 
         }
     }

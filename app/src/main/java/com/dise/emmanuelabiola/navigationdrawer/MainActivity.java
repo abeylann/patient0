@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity{
                                     fragmentManager.beginTransaction()
                                             .replace(R.id.frame, fragment).commit();
 
-                                    setTitle(menuItem.getTitle());
+                                    setTitle("New Patient");
                                     drawerLayout.closeDrawer(GravityCompat.START);
                                 } else {
                                     // error in creating fragment
