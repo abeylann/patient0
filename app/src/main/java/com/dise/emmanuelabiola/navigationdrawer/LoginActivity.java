@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 String username = mUsername.getText().toString();
                 String password = mPassword.getText().toString();
 
+                Log.d("stuff","thing");
                 username = username.trim();
                 password = password.trim();
 
@@ -70,11 +73,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
-                    jsonResponse.get("email");
+                    Log.d("Response:", response);
+                    String email = jsonResponse.getString("email");
 
-                    if (success == null){
+                    if (email != ""){
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);}
+                        startActivity(intent);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -85,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Incorrect username / password", Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override

@@ -30,6 +30,7 @@
         <EditText
             android:id="@+id/usernameField"
             style="@style/AuthEditText"
+            android:singleLine="true"
             android:hint="@string/username_hint" >
 
             <requestFocus />
@@ -48,7 +49,8 @@
         android:background="@color/md_indigo_900"
         android:text="@string/login_button_label"
         android:textColor="@color/md_white_1000"
-        android:layout_below="@+id/editTextLayout"/>
+        android:layout_below="@+id/editTextLayout"
+       />
 
 
 </RelativeLayout>
