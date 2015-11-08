@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        card_view:cardBackgroundColor="#3f51b5"
+        card_view:cardBackgroundColor="#C8E8FC"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="1dp"
         android:layout_marginLeft="50dp"

@@ -26,6 +26,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLDataException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,10 +46,10 @@ public class HomeFragment extends Fragment {
     TextView title;
     TextView description;
     ListView listView;
-    //ListAdapter listViewAdapter;
     SharedPreferences prefs;
     ArrayList<String> list;
     ArrayAdapter<String> adapter;
+    PatientDataSource patientDataSource;
 
     public HomeFragment() {
     }
@@ -68,7 +70,9 @@ public class HomeFragment extends Fragment {
 
         listView.setAdapter(adapter);
 
-        prefs = MainActivity.c.getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        prefs = MainActivity.c.getSharedPreferences("Patient", Context.MODE_PRIVATE);
+        patientDataSource = new PatientDataSource(MainActivity.c);
+
         Log.d("Test", prefs.toString());
 
         getData();
@@ -94,8 +98,16 @@ public class HomeFragment extends Fragment {
 
                     adapter.add("Blood pressure: " + Integer.toString(patient.getInt("blood_pressure")));
                     adapter.add("Temperature: " + Integer.toString(patient.getInt("temperature")));
-
-                    Log.d("Testing", listView.getItemAtPosition(0).toString());
+                    String test = "";
+                    try {
+                        patientDataSource.open();
+                        test = patientDataSource.newPatient(patient.getString("name"), patient.getInt("blood_pressure"), patient.getInt("temperature"), patient.getInt("condition_id"), patient.getInt("id"));
+                        patientDataSource.close();
+                    }catch(SQLException s)
+                    {
+                        s.printStackTrace();
+                    }
+                    Log.d("Testing", test);
 
                     adapter.notifyDataSetChanged();
 
@@ -119,4 +131,6 @@ public class HomeFragment extends Fragment {
         };
         Volley.newRequestQueue(MainActivity.c).add(postRequest);
     }
+
+
 }
